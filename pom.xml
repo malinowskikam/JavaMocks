@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>testowanie-java</groupId>
-    <artifactId>projekt-1</artifactId>
+    <artifactId>projekt-2-malinowskikam</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -65,7 +65,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
             <plugins>
                 <plugin>
