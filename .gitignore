@@ -1,0 +1,5 @@
+**/.attach*
+**/target
+**/temp_*
+**/.idea/*
+**/.idea
