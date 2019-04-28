@@ -7,8 +7,9 @@ import errors.ValidationException;
 
 public class TableService
 {
-    private RestaurantService restaurantService;
     private Repository database;
+
+    private RestaurantService restaurantService;
 
     public TableService(Repository db)
     {
