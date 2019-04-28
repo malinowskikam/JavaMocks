@@ -10,9 +10,9 @@ public class ReservationService
 {
     private Repository database;
 
-    UserService userService;
-    TableService tableService;
-    RestaurantService restaurantService;
+    private UserService userService;
+    private TableService tableService;
+    private RestaurantService restaurantService;
 
     public ReservationService(Repository db)
     {
