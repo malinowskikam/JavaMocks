@@ -1,7 +1,9 @@
-@
-abcd
-a@a.a
-aa@aaa@aa
-,
-@aaaaaaaaa
-""
+@,pw
+abcd,pw
+a@a.a,pw
+aa@aaa@aa,pw
+,pw
+@aaaaaaaaa,pw
+"",pw
+a@a.pl,""
+a@a.pl,,
