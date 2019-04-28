@@ -11,11 +11,11 @@ import static validation.Validators.isNotEmpty;
 import static validation.Validators.isNotNull;
 
 public class Restaurant implements Validatable, Serializable {
-    Long id;
-    String name;
-    String address;
-    LocalTime openHour;
-    LocalTime closeHour;
+    private Long id;
+    private String name;
+    private String address;
+    private LocalTime openHour;
+    private LocalTime closeHour;
 
     public Restaurant() {
     }
