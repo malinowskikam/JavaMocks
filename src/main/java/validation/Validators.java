@@ -1,6 +1,5 @@
 package validation;
 
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class Validators {
