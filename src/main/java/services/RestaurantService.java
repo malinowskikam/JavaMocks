@@ -45,7 +45,7 @@ public class RestaurantService
         database.update(restaurant);
     }
 
-    public Restaurant getRestaurantById(Long id)
+    public Restaurant get(Long id)
     {
         return database.get(id,Restaurant.class);
     }
