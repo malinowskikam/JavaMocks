@@ -94,8 +94,7 @@ public class Restaurant implements Validatable, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Restaurant that = (Restaurant) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
+        return Objects.equals(name, that.name) &&
                 Objects.equals(address, that.address) &&
                 Objects.equals(openHour, that.openHour) &&
                 Objects.equals(closeHour, that.closeHour);
