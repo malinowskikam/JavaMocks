@@ -10,9 +10,9 @@ import static validation.Validators.isPositiveInteger;
 
 public class Table implements Validatable, Serializable
 {
-    Long id;
-    int seats;
-    Long restaurantId;
+    private Long id;
+    private int seats;
+    private Long restaurantId;
 
     public Table()
     {
