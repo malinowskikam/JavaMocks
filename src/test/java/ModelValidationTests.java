@@ -1,6 +1,7 @@
-package models;
-
-import models.*;
+import models.Reservation;
+import models.Restaurant;
+import models.Table;
+import models.User;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.jupiter.api.Test;
