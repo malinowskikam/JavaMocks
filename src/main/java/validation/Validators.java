@@ -1,5 +1,7 @@
 package validation;
 
+import models.Reservation;
+import models.Restaurant;
 import org.joda.time.LocalTime;
 
 public class Validators {
@@ -23,5 +25,15 @@ public class Validators {
 
     public static boolean isPositiveInteger(int i) {
         return i > 0;
+    }
+
+    public static boolean isValidReservationTime(Reservation reservation, Restaurant restaurant)
+    {
+        boolean isAfterOpen = reservation.getTime().isAfter(restaurant.getOpenHour()) ||
+                reservation.getTime().isEqual(restaurant.getOpenHour());
+
+        boolean isBeforeClose = reservation.getTime().isBefore(restaurant.getCloseHour());
+
+        return isAfterOpen && isBeforeClose;
     }
 }
