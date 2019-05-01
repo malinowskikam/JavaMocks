@@ -14,15 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ModelValidationTests // testy hamcrest
 {
-    static User user;
-    static Restaurant restaurant;
-    static Table table;
-    static Reservation reservation;
+    private static User user;
+    private static Restaurant restaurant;
+    private static Table table;
+    private static Reservation reservation;
 
 
     @ParameterizedTest
     @CsvFileSource(resources = "valid_users.csv")
-    void valid_users(String email,String password)
+    public void validUsers(String email,String password)
     {
          user = new User(0L, email,password,true,User.Type.STANDARD);
          assertAll(
@@ -37,7 +37,7 @@ public class ModelValidationTests // testy hamcrest
 
     @ParameterizedTest
     @CsvFileSource(resources = "invalid_users.csv")
-    void invalid_users(String email,String password)
+    public void invalidUsers(String email,String password)
     {
         user = new User(0L, email,password,true,User.Type.STANDARD);
 
@@ -52,7 +52,7 @@ public class ModelValidationTests // testy hamcrest
 
     @ParameterizedTest
     @CsvFileSource(resources = "valid_restaurants.csv")
-    void valid_restaurant(String name,String address, String open, String close)
+    public void validUestaurant(String name,String address, String open, String close)
     {
         restaurant = new Restaurant(0L, name,address,new LocalTime(open),new LocalTime(close));
 
@@ -67,7 +67,7 @@ public class ModelValidationTests // testy hamcrest
 
     @ParameterizedTest
     @CsvFileSource(resources = "invalid_restaurants.csv")
-    void invalid_restaurants(String name,String address, String open, String close)
+    public void invalidRestaurants(String name,String address, String open, String close)
     {
         restaurant = new Restaurant(0L, name, address, new LocalTime(open), new LocalTime(close));
 
@@ -82,7 +82,7 @@ public class ModelValidationTests // testy hamcrest
 
     @ParameterizedTest
     @CsvFileSource(resources = "valid_tables.csv")
-    void valid_tables(int seats, Long restaurantId)
+    public void validTables(int seats, Long restaurantId)
     {
         table = new Table(0L,seats,restaurantId);
 
@@ -97,7 +97,7 @@ public class ModelValidationTests // testy hamcrest
 
     @ParameterizedTest
     @CsvFileSource(resources = "invalid_tables.csv")
-    void invalid_tables(int seats, Long restaurantId)
+    public void invalidTables(int seats, Long restaurantId)
     {
         table = new Table(0L,seats,restaurantId);
 
@@ -112,7 +112,7 @@ public class ModelValidationTests // testy hamcrest
 
     @ParameterizedTest
     @CsvFileSource(resources = "valid_reservations.csv")
-    void valid_reservations(Long id, Long userId, Long tableId, String time, String date)
+    public void validReservations(Long id, Long userId, Long tableId, String time, String date)
     {
         reservation = new Reservation(id,userId,tableId,new LocalTime(time),new LocalDate(date));
 
@@ -127,7 +127,7 @@ public class ModelValidationTests // testy hamcrest
 
     @ParameterizedTest
     @CsvFileSource(resources = "invalid_reservations.csv")
-    void invalid_reservations(Long id, Long userId, Long tableId, String time, String date)
+    public void invalidReservations(Long id, Long userId, Long tableId, String time, String date)
     {
         reservation = new Reservation(id,userId,tableId,new LocalTime(time),new LocalDate(date));
 
@@ -141,7 +141,7 @@ public class ModelValidationTests // testy hamcrest
     }
 
     @Test
-    void null_time_reservation()
+    public void nullTimeReservation()
     {
         reservation = new Reservation(null,1L,1L,null,new LocalDate(2018,1,1));
 
@@ -155,7 +155,7 @@ public class ModelValidationTests // testy hamcrest
     }
 
     @Test
-    void null_date_reservation()
+    public void nullDateReservation()
     {
         reservation = new Reservation(null,1L,1L,new LocalTime(10,0,0),null);
 
