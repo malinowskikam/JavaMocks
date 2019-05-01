@@ -57,4 +57,22 @@ public class UserService
 
         return u;
     }
+
+    public void changePassword(User user, String oldPassword, String newPassword) throws ValidationException,EntryNotFoundException
+    {
+        User u = get(user.getId());
+
+        if(u==null)
+            throw new EntryNotFoundException("User",user.getId());
+
+        if(oldPassword.equals(u.getPassword()))
+        {
+            u.setPassword(newPassword);
+            update(u);
+        }
+        else
+        {
+            throw new ValidationException("User","passwords does not match");
+        }
+    }
 }

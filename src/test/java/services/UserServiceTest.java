@@ -163,4 +163,56 @@ public class UserServiceTest {
 
         verify(repository).add(any());
     }
+
+    @Test
+    public void changePassword()
+    {
+        doReturn(user).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+        doReturn("old_password").when(user).getPassword();
+        doReturn(true).when(user).isValid();
+        doAnswer((a)->null).when(repository).update(user);
+        doAnswer((a)->null).when(user).setPassword("new_password");
+
+        assertThatCode(
+                () -> userService.changePassword(user,"old_password","new_password")
+        ).doesNotThrowAnyException();
+
+        verify(repository,times(2)).get(1L,User.class);
+        verify(user,times(2)).getId();
+        verify(user).getPassword();
+        verify(user).isValid();
+        verify(repository).update(user);
+        verify(user).setPassword("new_password");
+    }
+
+    @Test
+    public void changePasswordPasswordsDoesNotMatch()
+    {
+        doReturn(user).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+        doReturn("old_password").when(user).getPassword();
+
+        assertThatExceptionOfType(ValidationException.class).isThrownBy(
+                () -> userService.changePassword(user,"wrong_password","new_password")
+        ).withMessageContaining("User");
+
+        verify(repository).get(1L,User.class);
+        verify(user).getId();
+        verify(user).getPassword();
+    }
+
+    @Test
+    public void changePasswordOfNonExistingUser()
+    {
+        doReturn(null).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> userService.changePassword(user,"new_password","new_password")
+        ).withMessageContaining("User");
+
+        verify(repository).get(1L,User.class);
+        verify(user,times(2)).getId();
+    }
 }
