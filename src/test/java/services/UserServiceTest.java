@@ -7,6 +7,9 @@ import models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -236,11 +239,32 @@ public class UserServiceTest {
         verify(user).setActive(true);
     }
 
-    /*
     @Test
     public void loginUser()
     {
+        String email = "email@poczta.pl";
+        String password = "password";
 
+        doReturn(password).when(user).getPassword();
+        doReturn(email).when(user).getEmail();
+        doReturn(Arrays.asList(user)).when(repository).getAll(User.class);
+
+        User u = userService.login(email,password);
+
+        assertThat(u).isEqualTo(user);
     }
-    */
+
+    @Test
+    public void loginWrongCredentials()
+    {
+        String email = "email@poczta.pl";
+        String password = "password";
+
+        doReturn(new ArrayList<User>()).when(repository).getAll(User.class);
+
+        User u = userService.login(email,password);
+
+        assertThat(u).isNull();
+    }
+
 }

@@ -89,16 +89,16 @@ public class UserService
         update(u);
     }
 
-    /*
+
     public User login(String email, String password)
     {
         List<User> users = database.getAll(User.class);
 
-        for(User u : users)
-            if(u.getEmail().equals(email) && u.getPassword().equals(password))
+        for (User u : users)
+            if (u.getEmail().equals(email) && u.getPassword().equals(password))
                 return u;
 
         return null;
     }
-    */
+
 }
