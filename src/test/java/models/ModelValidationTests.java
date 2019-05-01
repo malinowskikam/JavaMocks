@@ -1,6 +1,5 @@
 package models;
 
-import models.*;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.jupiter.api.Test;
