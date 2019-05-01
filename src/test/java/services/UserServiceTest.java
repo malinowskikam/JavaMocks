@@ -6,7 +6,6 @@ import errors.ValidationException;
 import models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -153,4 +152,15 @@ public class UserServiceTest {
         verify(repository).get(1L,User.class);
     }
 
+    @Test
+    public void registerUser()
+    {
+        doAnswer((a)->null).when(repository).add(any());
+
+        assertThatCode(
+                () -> userService.register("email@poczta.pl","haslo1")
+        ).doesNotThrowAnyException();
+
+        verify(repository).add(any());
+    }
 }

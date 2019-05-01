@@ -48,4 +48,13 @@ public class UserService
     {
         return database.get(id,User.class);
     }
+
+    public User register(String email,String password) throws ValidationException
+    {
+        User u = new User(null,email,password,false,User.Type.STANDARD);
+
+        add(u);
+
+        return u;
+    }
 }
