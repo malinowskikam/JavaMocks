@@ -16,11 +16,11 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest {
 
     //Mocks
-    Repository repository;
-    User user;
+    private Repository repository;
+    private User user;
 
     //Tested
-    UserService userService;
+    private UserService userService;
 
     @BeforeEach
     public void setUp()
