@@ -252,6 +252,10 @@ public class UserServiceTest {
         User u = userService.login(email,password);
 
         assertThat(u).isEqualTo(user);
+
+        verify(user).getPassword();
+        verify(user).getEmail();
+        verify(repository).getAll(User.class);
     }
 
     @Test
@@ -265,6 +269,42 @@ public class UserServiceTest {
         User u = userService.login(email,password);
 
         assertThat(u).isNull();
+
+        verify(repository).getAll(User.class);
+    }
+
+    @Test
+    public void changeUserType()
+    {
+        doReturn(user).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+        doReturn(true).when(user).isValid();
+        doAnswer((a)->null).when(repository).update(user);
+        doAnswer((a)->null).when(user).setUserType(User.Type.MODERATOR);
+
+        assertThatCode(
+                () -> userService.changeType(user,User.Type.MODERATOR)
+        ).doesNotThrowAnyException();
+
+        verify(repository,times(2)).get(1L,User.class);
+        verify(user,times(2)).getId();
+        verify(user).isValid();
+        verify(repository).update(user);
+        verify(user).setUserType(User.Type.MODERATOR);
+    }
+
+    @Test
+    public void changeTypeOfNonExistingUser()
+    {
+        doReturn(null).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> userService.changeType(user,User.Type.MODERATOR)
+        ).withMessageContaining("User");
+
+        verify(repository).get(1L,User.class);
+        verify(user,times(2)).getId();
     }
 
 }

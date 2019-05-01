@@ -101,4 +101,15 @@ public class UserService
         return null;
     }
 
+    public void changeType(User user, User.Type type) throws EntryNotFoundException,ValidationException
+    {
+        User u = get(user.getId());
+
+        if(u==null)
+            throw new EntryNotFoundException("User",user.getId());
+
+        u.setUserType(type);
+        update(u);
+    }
+
 }
