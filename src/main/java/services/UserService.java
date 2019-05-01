@@ -4,6 +4,8 @@ import data.Repository;
 import models.*;
 import errors.*;
 
+import java.util.List;
+
 public class UserService
 {
     private Repository database;
@@ -75,4 +77,28 @@ public class UserService
             throw new ValidationException("User","passwords does not match");
         }
     }
+
+    public void activate(User user) throws EntryNotFoundException,ValidationException
+    {
+        User u = get(user.getId());
+
+        if(u==null)
+            throw new EntryNotFoundException("User",user.getId());
+
+        u.setActive(true);
+        update(u);
+    }
+
+    /*
+    public User login(String email, String password)
+    {
+        List<User> users = database.getAll(User.class);
+
+        for(User u : users)
+            if(u.getEmail().equals(email) && u.getPassword().equals(password))
+                return u;
+
+        return null;
+    }
+    */
 }

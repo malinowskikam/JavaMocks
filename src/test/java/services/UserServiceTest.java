@@ -215,4 +215,32 @@ public class UserServiceTest {
         verify(repository).get(1L,User.class);
         verify(user,times(2)).getId();
     }
+
+    @Test
+    public void activateUser()
+    {
+        doReturn(user).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+        doReturn(true).when(user).isValid();
+        doAnswer((a)->null).when(repository).update(user);
+        doAnswer((a)->null).when(user).setActive(true);
+
+        assertThatCode(
+                () -> userService.activate(user)
+        ).doesNotThrowAnyException();
+
+        verify(repository,times(2)).get(1L,User.class);
+        verify(user,times(2)).getId();
+        verify(user).isValid();
+        verify(repository).update(user);
+        verify(user).setActive(true);
+    }
+
+    /*
+    @Test
+    public void loginUser()
+    {
+
+    }
+    */
 }
