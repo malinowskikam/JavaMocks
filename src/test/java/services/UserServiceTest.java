@@ -1,3 +1,5 @@
+package services;
+
 import data.Repository;
 import errors.EntryNotFoundException;
 import errors.ValidationException;
