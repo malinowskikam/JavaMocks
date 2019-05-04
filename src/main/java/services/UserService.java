@@ -4,6 +4,7 @@ import data.Repository;
 import models.*;
 import errors.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService
@@ -49,6 +50,24 @@ public class UserService
     public User get(Long id)
     {
         return database.get(id,User.class);
+    }
+
+    public List<Reservation> getReservations(User user) throws EntryNotFoundException
+    {
+        User u = database.get(user.getId(),User.class);
+        if(u==null)
+            throw new EntryNotFoundException("User",user.getId());
+
+        List<Reservation> reservations = database.getAll(Reservation.class);
+
+        List<Reservation> usersReservations = new ArrayList<>();
+        for(Reservation reservation : reservations)
+        {
+            if(reservation.getUserId().equals(u.getId()))
+                usersReservations.add(reservation);
+        }
+
+        return usersReservations;
     }
 
     public User register(String email,String password) throws ValidationException
