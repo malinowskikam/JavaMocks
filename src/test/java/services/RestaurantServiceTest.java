@@ -7,6 +7,7 @@ import models.Restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.easymock.EasyMock.*;
@@ -56,12 +57,14 @@ public class RestaurantServiceTest {
         expect(restaurant.getValidationError()).andReturn("validation error message");
 
         replay(restaurant);
+        replay(repository);
 
         assertThatExceptionOfType(ValidationException.class).isThrownBy(
                 () -> restaurantService.add(restaurant)
         ).withMessageContaining("Restaurant");
 
         verify(restaurant);
+        verify(repository);
     }
 
     @Test
@@ -151,6 +154,22 @@ public class RestaurantServiceTest {
         assertThatExceptionOfType(ValidationException.class).isThrownBy(
                 () -> restaurantService.update(restaurant)
         ).withMessageContaining("Restaurant");
+
+        verify(repository);
+        verify(restaurant);
+    }
+
+    @Test
+    public void getRestaurant()
+    {
+        expect(repository.get(1L, Restaurant.class)).andReturn(restaurant);
+
+        replay(repository);
+        replay(restaurant);
+
+        Restaurant u = restaurantService.get(1L);
+
+        assertThat(u).isEqualTo(restaurant);
 
         verify(repository);
         verify(restaurant);
