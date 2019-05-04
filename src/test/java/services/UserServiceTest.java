@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
-
 //Testy Mockito
 public class UserServiceTest {
 
@@ -40,6 +39,7 @@ public class UserServiceTest {
     {
         doAnswer((a)->null).when(repository).add(user);
         doReturn(true).when(user).isValid();
+        doReturn(1L).when(user).getId();
 
         assertThatCode(
                 () -> userService.add(user)
@@ -47,6 +47,9 @@ public class UserServiceTest {
 
         verify(repository).add(user);
         verify(user).isValid();
+        verify(user).getId();
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -61,6 +64,7 @@ public class UserServiceTest {
 
         verify(user).isValid();
         verify(user).getValidationError();
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -77,6 +81,8 @@ public class UserServiceTest {
         verify(user).getId();
         verify(repository).get(1L,User.class);
         verify(repository).delete(user);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -91,6 +97,8 @@ public class UserServiceTest {
 
         verify(user,times(2)).getId();
         verify(repository).get(1L,User.class);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -109,6 +117,8 @@ public class UserServiceTest {
         verify(user).getId();
         verify(user).isValid();
         verify(repository).update(user);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -123,6 +133,8 @@ public class UserServiceTest {
 
         verify(repository).get(1L,User.class);
         verify(user,times(2)).getId();
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -141,6 +153,8 @@ public class UserServiceTest {
         verify(user).getId();
         verify(user).getValidationError();
         verify(user).isValid();
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -153,6 +167,8 @@ public class UserServiceTest {
         assertThat(u).isEqualTo(user);
 
         verify(repository).get(1L,User.class);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -165,6 +181,8 @@ public class UserServiceTest {
         ).doesNotThrowAnyException();
 
         verify(repository).add(any());
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -187,6 +205,8 @@ public class UserServiceTest {
         verify(user).isValid();
         verify(repository).update(user);
         verify(user).setPassword("new_password");
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -203,6 +223,8 @@ public class UserServiceTest {
         verify(repository).get(1L,User.class);
         verify(user).getId();
         verify(user).getPassword();
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -217,6 +239,8 @@ public class UserServiceTest {
 
         verify(repository).get(1L,User.class);
         verify(user,times(2)).getId();
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -237,6 +261,8 @@ public class UserServiceTest {
         verify(user).isValid();
         verify(repository).update(user);
         verify(user).setActive(true);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -256,6 +282,8 @@ public class UserServiceTest {
         verify(user).getPassword();
         verify(user).getEmail();
         verify(repository).getAll(User.class);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -271,6 +299,8 @@ public class UserServiceTest {
         assertThat(u).isNull();
 
         verify(repository).getAll(User.class);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -291,6 +321,8 @@ public class UserServiceTest {
         verify(user).isValid();
         verify(repository).update(user);
         verify(user).setUserType(User.Type.MODERATOR);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
     @Test
@@ -305,6 +337,8 @@ public class UserServiceTest {
 
         verify(repository).get(1L,User.class);
         verify(user,times(2)).getId();
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
     }
 
 }
