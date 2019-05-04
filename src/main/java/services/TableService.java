@@ -1,6 +1,7 @@
 package services;
 
 import data.Repository;
+import models.Restaurant;
 import models.Table;
 import errors.EntryNotFoundException;
 import errors.ValidationException;
@@ -57,5 +58,18 @@ public class TableService
     public Table get(Long id)
     {
         return database.get(id,Table.class);
+    }
+
+    public Restaurant getRestaurant(Table table) throws EntryNotFoundException
+    {
+        Table t = database.get(table.getId(),Table.class);
+        if(t==null)
+            throw new EntryNotFoundException("Table",table.getId());
+
+        Restaurant r = restaurantService.get(table.getRestaurantId());
+        if(r==null)
+            throw new EntryNotFoundException("Restaurant",table.getRestaurantId());
+
+        return r;
     }
 }
