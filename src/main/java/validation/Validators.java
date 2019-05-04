@@ -36,13 +36,4 @@ public class Validators {
 
         return isAfterOpen && isBeforeClose;
     }
-
-    public static <T> boolean contains(Iterable<T> iterable, T object )
-    {
-        if(object==null || iterable==null) return false;
-        for(T t : iterable)
-            if(t.equals(object))
-                return true;
-        return false;
-    }
 }
