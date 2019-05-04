@@ -24,7 +24,7 @@ public class RestaurantService
         return restaurant.getId();
     }
 
-    public void deleteRestaurant(Restaurant restaurant) throws EntryNotFoundException
+    public void delete(Restaurant restaurant) throws EntryNotFoundException
     {
         Restaurant r = database.get(restaurant.getId(),Restaurant.class);
         if(r==null)
@@ -33,7 +33,7 @@ public class RestaurantService
         database.delete(r);
     }
 
-    public void updateRestaurant(Restaurant restaurant) throws ValidationException,EntryNotFoundException
+    public void update(Restaurant restaurant) throws ValidationException,EntryNotFoundException
     {
         Restaurant r = database.get(restaurant.getId(),Restaurant.class);
         if(r==null)
