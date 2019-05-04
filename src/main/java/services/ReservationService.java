@@ -10,40 +10,37 @@ public class ReservationService
 {
     private Repository database;
 
-    private UserService userService;
-    private TableService tableService;
-    private RestaurantService restaurantService;
-
     public ReservationService(Repository db)
     {
         database = db;
-        userService = new UserService(db);
-        tableService = new TableService(db);
-        restaurantService = new RestaurantService(db);
     }
 
     public Long add(Reservation reservation) throws ValidationException, EntryNotFoundException
     {
-    if(!reservation.isValid())
-        throw new ValidationException("Reservation",reservation.getValidationError());
+        UserService userService = new UserService(database);
+        TableService tableService = new TableService(database);
+        RestaurantService restaurantService = new RestaurantService(database);
 
-    if(null== userService.get(reservation.getUserId()))
-        throw new EntryNotFoundException("User",reservation.getUserId());
+        if(!reservation.isValid())
+            throw new ValidationException("Reservation",reservation.getValidationError());
 
-    Table table = tableService.get(reservation.getTableId());
-    if(null==table)
-        throw new EntryNotFoundException("Table",reservation.getTableId());
-    else
-    {
-        Restaurant restaurant = restaurantService.get(table.getRestaurantId());
-        if(!Validators.isValidReservationTime(reservation,restaurant))
-            throw new ValidationException("Reservation","reservation time should be in restaurant working hours");
+        if(null== userService.get(reservation.getUserId()))
+            throw new EntryNotFoundException("User",reservation.getUserId());
+
+        Table table = tableService.get(reservation.getTableId());
+        if(null==table)
+            throw new EntryNotFoundException("Table",reservation.getTableId());
+        else
+        {
+            Restaurant restaurant = restaurantService.get(table.getRestaurantId());
+            if(!Validators.isValidReservationTime(reservation,restaurant))
+                throw new ValidationException("Reservation","reservation time should be in restaurant working hours");
+        }
+
+        database.add(reservation);
+
+        return reservation.getId();
     }
-
-    database.add(reservation);
-
-    return reservation.getId();
-}
 
     public void delete(Reservation reservation) throws EntryNotFoundException
     {
@@ -56,6 +53,10 @@ public class ReservationService
 
     public void update(Reservation reservation) throws ValidationException,EntryNotFoundException
     {
+        UserService userService = new UserService(database);
+        TableService tableService = new TableService(database);
+        RestaurantService restaurantService = new RestaurantService(database);
+
         Reservation r = database.get(reservation.getId(),Reservation.class);
         if(r==null)
             throw new EntryNotFoundException("Reservation",reservation.getId());
@@ -86,11 +87,24 @@ public class ReservationService
 
     public Table getTable(Reservation reservation) throws EntryNotFoundException
     {
+        TableService tableService = new TableService(database);
+
         Reservation r = database.get(reservation.getId(),Reservation.class);
         if(r==null)
             throw new EntryNotFoundException("Reservation",reservation.getId());
 
         return tableService.get(r.getTableId());
+    }
+
+    public User getUser(Reservation reservation) throws EntryNotFoundException
+    {
+        UserService userService = new UserService(database);
+
+        Reservation r = database.get(reservation.getId(),Reservation.class);
+        if(r==null)
+            throw new EntryNotFoundException("Reservation",reservation.getId());
+
+        return userService.get(r.getUserId());
     }
 
 }
