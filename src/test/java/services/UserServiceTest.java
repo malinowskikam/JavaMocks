@@ -3,12 +3,14 @@ package services;
 import data.Repository;
 import errors.EntryNotFoundException;
 import errors.ValidationException;
+import models.Reservation;
 import models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -113,10 +115,10 @@ public class UserServiceTest {
                 () -> userService.update(user)
         ).doesNotThrowAnyException();
 
-        verify(repository).get(1L,User.class);
         verify(user).getId();
         verify(user).isValid();
         verify(repository).update(user);
+        verify(repository).get(1L,User.class);
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(user);
     }
@@ -167,6 +169,32 @@ public class UserServiceTest {
         assertThat(u).isEqualTo(user);
 
         verify(repository).get(1L,User.class);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
+    }
+
+    @Test
+    public void getReservations() throws Exception
+    {
+        Reservation reservation1 = mock(Reservation.class);
+        Reservation reservation2 = mock(Reservation.class);
+
+        doReturn(1L).when(user).getId();
+        doReturn(user).when(repository).get(1L,User.class);
+        doReturn(Arrays.asList(reservation1,reservation2)).when(repository).getAll(Reservation.class);
+
+        doReturn(1L).when(reservation1).getUserId();
+        doReturn(1L).when(reservation2).getUserId();
+
+        List<Reservation> reservations = userService.getReservations(user);
+
+        assertThat(reservations.size()).isEqualTo(2);
+
+        verify(repository).getAll(Reservation.class);
+        verify(user,times(3)).getId();
+        verify(repository).get(1L,User.class);
+        verify(reservation1).getUserId();
+        verify(reservation2).getUserId();
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(user);
     }
