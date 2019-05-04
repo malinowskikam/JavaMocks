@@ -84,4 +84,13 @@ public class ReservationService
         return database.get(id,Reservation.class);
     }
 
+    public Table getTable(Reservation reservation) throws EntryNotFoundException
+    {
+        Reservation r = database.get(reservation.getId(),Reservation.class);
+        if(r==null)
+            throw new EntryNotFoundException("Reservation",reservation.getId());
+
+        return tableService.get(r.getTableId());
+    }
+
 }
