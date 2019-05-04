@@ -41,7 +41,7 @@ public class Validators {
     {
         if(object==null || iterable==null) return false;
         for(T t : iterable)
-            if(t==object || t.equals(object))
+            if(t.equals(object))
                 return true;
         return false;
     }
