@@ -6,6 +6,7 @@ import models.Restaurant;
 import errors.EntryNotFoundException;
 import errors.ValidationException;
 import models.Table;
+import models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,5 +95,24 @@ public class RestaurantService
         }
 
         return restaurantsReservations;
+    }
+
+    public List<User> getUsers(Restaurant restaurant) throws EntryNotFoundException
+    {
+        ReservationService reservationService = new ReservationService(database);
+        Restaurant r = database.get(restaurant.getId(),Restaurant.class);
+        if(r==null)
+            throw new EntryNotFoundException("Restaurant",restaurant.getId());
+
+        List<Reservation> reservations = getReservations(restaurant);
+
+        List<User> users = new ArrayList<>();
+
+        for(Reservation reservation : reservations)
+        {
+            users.add(reservationService.getUser(reservation));
+        }
+
+        return users;
     }
 }

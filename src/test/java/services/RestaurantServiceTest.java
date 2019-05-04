@@ -6,6 +6,7 @@ import errors.ValidationException;
 import models.Reservation;
 import models.Restaurant;
 import models.Table;
+import models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -276,6 +277,62 @@ public class RestaurantServiceTest {
         verify(reservation1);
         verify(reservation2);
         verify(reservation3);
+    }
+
+    @Test
+    public void getUsers() throws Exception
+    {
+        Table table1 = createMock(Table.class);
+        Table table2 = createMock(Table.class);
+        Reservation reservation1 = createMock(Reservation.class);
+        Reservation reservation2 = createMock(Reservation.class);
+        User user1 = createMock(User.class);
+        User user2 = createMock(User.class);
+
+        expect(restaurant.getId()).andReturn(1L).times(3);
+        expect(table1.getId()).andReturn(1L);
+        expect(table2.getId()).andReturn(2L);
+        expect(table1.getRestaurantId()).andReturn(1L);
+        expect(table2.getRestaurantId()).andReturn(1L);
+        expect(reservation1.getId()).andReturn(1L).times(2);
+        expect(reservation2.getId()).andReturn(2L).times(2);
+        expect(reservation1.getTableId()).andReturn(1L);
+        expect(reservation2.getTableId()).andReturn(2L);
+        expect(reservation1.getUserId()).andReturn(1L);
+        expect(reservation2.getUserId()).andReturn(2L);
+
+
+        expect(repository.get(1L,Restaurant.class)).andReturn(restaurant).times(5);
+        expect(repository.get(1L,Table.class)).andReturn(table1).times(2);
+        expect(repository.get(2L,Table.class)).andReturn(table2).times(2);
+        expect(repository.get(1L,Reservation.class)).andReturn(reservation1).times(2);
+        expect(repository.get(2L,Reservation.class)).andReturn(reservation2).times(2);
+        expect(repository.get(1L,User.class)).andReturn(user1);
+        expect(repository.get(2L,User.class)).andReturn(user1);
+        expect(repository.getAll(Table.class)).andReturn(Arrays.asList(table1,table2));
+        expect(repository.getAll(Reservation.class)).andReturn(Arrays.asList(reservation1,reservation2));
+
+        replay(repository);
+        replay(restaurant);
+        replay(reservation1);
+        replay(reservation2);
+        replay(table1);
+        replay(table2);
+        replay(user1);
+        replay(user2);
+
+        List<User> users = restaurantService.getUsers(restaurant);
+
+        assertThat(users.size()).isEqualTo(2);
+
+        verify(repository);
+        verify(restaurant);
+        verify(table1);
+        verify(table2);
+        verify(reservation1);
+        verify(reservation2);
+        verify(user1);
+        verify(user2);
     }
 
 }
