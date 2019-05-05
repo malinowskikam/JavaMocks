@@ -10,16 +10,14 @@ public class TableService
 {
     private Repository database;
 
-    private RestaurantService restaurantService;
-
     public TableService(Repository db)
     {
         database = db;
-        restaurantService = new RestaurantService(db);
     }
 
-    public Long addTable(Table table) throws ValidationException,EntryNotFoundException
+    public Long add(Table table) throws ValidationException,EntryNotFoundException
     {
+        RestaurantService restaurantService = new RestaurantService(database);
         if(!table.isValid())
             throw new ValidationException("Table",table.getValidationError());
 
@@ -31,7 +29,7 @@ public class TableService
         return table.getId();
     }
 
-    public void deleteTable(Table table) throws EntryNotFoundException
+    public void delete(Table table) throws EntryNotFoundException
     {
         Table t = database.get(table.getId(),Table.class);
         if(t==null)
@@ -40,8 +38,9 @@ public class TableService
         database.delete(table);
     }
 
-    public void updateTable(Table table) throws ValidationException,EntryNotFoundException
+    public void update(Table table) throws ValidationException,EntryNotFoundException
     {
+        RestaurantService restaurantService = new RestaurantService(database);
         Table t = database.get(table.getId(),Table.class);
         if(t==null)
             throw new EntryNotFoundException("Table",table.getId());
@@ -62,6 +61,7 @@ public class TableService
 
     public Restaurant getRestaurant(Table table) throws EntryNotFoundException
     {
+        RestaurantService restaurantService = new RestaurantService(database);
         Table t = database.get(table.getId(),Table.class);
         if(t==null)
             throw new EntryNotFoundException("Table",table.getId());
