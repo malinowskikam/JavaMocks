@@ -223,4 +223,25 @@ public class TableServiceTest {
         verify(repository);
         verify(table);
     }
+
+    @Test
+    public void getTablesRestaurant() throws Exception
+    {
+        expect(table.getId()).andReturn(1L);
+        expect(table.getRestaurantId()).andReturn(1L);
+        expect(repository.get(1L,Restaurant.class)).andReturn(restaurant);
+        expect(repository.get(1L,Table.class)).andReturn(table);
+
+        replay(table);
+        replay(restaurant);
+        replay(repository);
+
+        Restaurant r = tableService.getRestaurant(table);
+
+        assertThat(r).isEqualTo(restaurant);
+
+        verify(repository);
+        verify(restaurant);
+        verify(table);
+    }
 }
