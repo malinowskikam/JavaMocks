@@ -335,4 +335,55 @@ public class RestaurantServiceTest {
         verify(user2);
     }
 
+    @Test
+    public void getTablesOfNonExistingRestaurant()
+    {
+        expect(restaurant.getId()).andReturn(1L).times(2);
+        expect(repository.get(1L,Restaurant.class)).andReturn(null);
+
+        replay(restaurant);
+        replay(repository);
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> restaurantService.getTables(restaurant)
+        ).withMessageContaining("Restaurant");
+
+        verify(repository);
+        verify(restaurant);
+    }
+
+    @Test
+    public void getReservationsOfNonExistingRestaurant()
+    {
+        expect(restaurant.getId()).andReturn(1L).times(2);
+        expect(repository.get(1L,Restaurant.class)).andReturn(null);
+
+        replay(restaurant);
+        replay(repository);
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> restaurantService.getReservations(restaurant)
+        ).withMessageContaining("Restaurant");
+
+        verify(repository);
+        verify(restaurant);
+    }
+
+    @Test
+    public void getUsersOfNonExistingRestaurant()
+    {
+        expect(restaurant.getId()).andReturn(1L).times(2);
+        expect(repository.get(1L,Restaurant.class)).andReturn(null);
+
+        replay(restaurant);
+        replay(repository);
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> restaurantService.getUsers(restaurant)
+        ).withMessageContaining("Restaurant");
+
+        verify(repository);
+        verify(restaurant);
+    }
+
 }
