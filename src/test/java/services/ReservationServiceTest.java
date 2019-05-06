@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class ReservationServiceTest {
 
-    Repository repository;
+    private Repository repository;
 
-    User user;
-    Restaurant restaurant;
-    Table table;
-    Reservation reservation;
+    private User user;
+    private Restaurant restaurant;
+    private Table table;
+    private Reservation reservation;
 
-    ReservationService reservationService;
+    private ReservationService reservationService;
 
     @BeforeEach
     public void setUp()
