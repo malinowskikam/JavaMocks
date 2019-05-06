@@ -22,7 +22,6 @@ public class ReservationServiceTest {
     private Repository repository;
 
     private User user;
-    private Restaurant restaurant;
     private Table table;
     private Reservation reservation;
 
@@ -41,7 +40,7 @@ public class ReservationServiceTest {
 
         repository.add(user);
 
-        restaurant = new Restaurant();
+        Restaurant restaurant = new Restaurant();
         restaurant.setName("Restauracja");
         restaurant.setAddress("ul. Słupska 51, 80310 Gdańsk");
         restaurant.setOpenHour(new LocalTime(9,30,0));
