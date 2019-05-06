@@ -200,6 +200,22 @@ public class UserServiceTest {
     }
 
     @Test
+    public void getReservationsOfNonExistingUser()
+    {
+        doReturn(null).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> userService.getReservations(user)
+        ).withMessageContaining("User");
+
+        verify(repository).get(1L,User.class);
+        verify(user,times(2)).getId();
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
+    }
+
+    @Test
     public void registerUser()
     {
         doAnswer((a)->null).when(repository).add(any());
@@ -289,6 +305,22 @@ public class UserServiceTest {
         verify(user).isValid();
         verify(repository).update(user);
         verify(user).setActive(true);
+        verifyNoMoreInteractions(repository);
+        verifyNoMoreInteractions(user);
+    }
+
+    @Test
+    public void activateNonExistingUser()
+    {
+        doReturn(null).when(repository).get(1L,User.class);
+        doReturn(1L).when(user).getId();
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> userService.activate(user)
+        ).withMessageContaining("User");
+
+        verify(repository).get(1L,User.class);
+        verify(user,times(2)).getId();
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(user);
     }
