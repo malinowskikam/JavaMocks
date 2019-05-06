@@ -244,4 +244,21 @@ public class TableServiceTest {
         verify(restaurant);
         verify(table);
     }
+
+    @Test
+    public void getRestaurantOfNonExistingTable()
+    {
+        expect(table.getId()).andReturn(1L).times(2);
+        expect(repository.get(1L,Table.class)).andReturn(null);
+
+        replay(table);
+        replay(repository);
+
+        assertThatExceptionOfType(EntryNotFoundException.class).isThrownBy(
+                () -> tableService.getRestaurant(table)
+        ).withMessageContaining("Table");
+
+        verify(repository);
+        verify(table);
+    }
 }
