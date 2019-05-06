@@ -66,10 +66,6 @@ public class TableService
         if(t==null)
             throw new EntryNotFoundException("Table",table.getId());
 
-        Restaurant r = restaurantService.get(table.getRestaurantId());
-        if(r==null)
-            throw new EntryNotFoundException("Restaurant",table.getRestaurantId());
-
-        return r;
+        return restaurantService.get(table.getRestaurantId());
     }
 }
